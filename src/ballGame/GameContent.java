@@ -18,7 +18,7 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
 
     private int arrowBaseX = 300;
     private int arrowBaseY = 425;
-    private int arrowTopX = 300;
+    private int arrowTopX = 302;
     private int arrowTopY = 375;
 
     private double[] ballXPos;
@@ -38,6 +38,19 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
 
     }
 
+    private int speed = 10;
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        timeManager.start();
+        repaint();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
 
     public void paint(Graphics g) {
         //settingBackground
@@ -52,36 +65,34 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
 
         //ArrowTop
         g.setColor(Color.GREEN);
-        g.fillRect(arrowTopX, arrowTopY, 5, 5);
+        g.fillRect(arrowTopX, arrowTopY, 6, 6);
+
         //ArrowBottom
         g.setColor(Color.GREEN);
         g.fillRect(arrowBaseX, arrowBaseY, 10, 10);
 
+        //connecting line
+        g.drawLine(arrowTopX + 3, arrowTopY + 3, arrowBaseX + 5, arrowBaseY + 5);
 
-    }
-
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        timeManager.start();
-        repaint();
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
 
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_R) {
+            arrowTopX = 302;
+        }
+
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            if (arrowTopX >= 590) {
+            if (arrowTopX >= 589) {
+                arrowTopX = 589;
             } else {
                 moveRight();
             }
         }
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             if (arrowTopX <= 0) {
+                arrowTopX = 0;
             } else {
                 moveLeft();
             }
@@ -92,12 +103,12 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
 
     public void moveRight() {
         playing = true;
-        arrowTopX += 10;
+        arrowTopX += speed;
     }
 
     public void moveLeft() {
         playing = true;
-        arrowTopX -= 10;
+        arrowTopX -= speed;
     }
 
     @Override
