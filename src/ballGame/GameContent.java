@@ -226,6 +226,7 @@ private double theta;
         if (e.getKeyCode() == KeyEvent.VK_R) {
             arrowTopX = 302;
             arrowTopY = 375;
+            arrowBaseX = 299;
             ballExists = false;
 
         }
@@ -274,8 +275,8 @@ private double theta;
                     ballXSpeed = -5 * cos(theta);
                     ballYSpeed = 5 * sin(theta);
                 }
-                ballXPos = arrowTopX;
-                ballYPos = arrowTopY;
+                ballXPos = arrowBaseX;
+                ballYPos = arrowBaseY;
 
 
                 createBall();
