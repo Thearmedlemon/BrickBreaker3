@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import static java.lang.Math.toIntExact;
+import static java.lang.Math.*;
 
 
 public class GameContent extends JPanel implements ActionListener, KeyListener {
@@ -25,8 +25,8 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
     private int arrowTopY = 375;
     private int brickCount;
     private double ballsize = 10;
-    private double ballXPos = 100;
-    private double ballYPos = 100;
+    private double ballXPos;
+    private double ballYPos;
     private double ballXSpeed = 5;
     private double ballYSpeed = 5;
     private int currentBallCount;
@@ -40,7 +40,7 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
 //    private double arrowRightHeadY;
 //    private double dy;
 //    private double dx;
-//    private double theta;
+private double theta;
 //    private double arrowHeadAngle;
 //    private double newDirectionLeft;
 //    private double newDirectionRight;
@@ -72,11 +72,11 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
                 ballXSpeed = -ballXSpeed;
             }
 
-            if (ballXPos >= 595) {
+            if (ballXPos >= 590) {
                 ballXSpeed = -ballXSpeed;
             }
 
-            if (ballYPos >= 500) {
+            if (ballYPos >= 480) {
                 ballYSpeed = -ballYSpeed;
             }
 
@@ -126,10 +126,13 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
 
         //Ball meme = new Ball(100, 100, 10, "#FFFF00", 5, 5);
 
+
         // ballColour = meme.getColour();
-        if (playing) {
+        if (ballExists) {
             g.setColor(Color.decode(ballColour));
             g.fillOval(toIntExact(Math.round(ballXPos)), toIntExact(Math.round(ballYPos)), toIntExact(Math.round(ballsize)), toIntExact(Math.round(ballsize)));
+        } else {
+
         }
     }
 
@@ -170,6 +173,8 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_R) {
             arrowTopX = 302;
             arrowTopY = 375;
+            ballExists = false;
+
         }
 
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
@@ -203,7 +208,25 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
         }
 
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            createBall();
+            if (ballExists) {
+            } else {
+                double dy = arrowTopY - arrowBaseY;
+                double dx = arrowTopX - arrowBaseX;
+
+                theta = (Math.PI - (Math.asin((dy) / (sqrt((dy * dy) + (dx * dx))))));
+                if (dx <= 0) {
+                    ballXSpeed = 5 * cos(theta);
+                    ballYSpeed = 5 * sin(theta);
+                } else {
+                    ballXSpeed = -5 * cos(theta);
+                    ballYSpeed = 5 * sin(theta);
+                }
+                ballXPos = arrowTopX;
+                ballYPos = arrowTopY;
+
+
+                createBall();
+            }
         }
 
     }
