@@ -83,7 +83,11 @@ private double theta;
             }
 
             if (ballYPos >= 480) {
-                ballYSpeed = -ballYSpeed;
+                //hits the bottom of the screen
+                ballExists = false;
+                arrowBaseX = toIntExact(Math.round(ballXPos));
+                arrowTopX = arrowBaseX + 3;
+
             }
 
             if (ballYPos <= 0) {
