@@ -24,7 +24,7 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
     private int arrowTopX = 302;
     private int arrowTopY = 375;
     private int brickCount;
-    private double ballsize = 10;
+    public double spacingMultiplier = 1.2;
     private double ballXPos;
     private double ballYPos;
     private double ballXSpeed = 5;
@@ -32,8 +32,10 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
     private int currentBallCount;
     private String ballColour = "#FFFF00";
     private int arrowSpeed = 5;
+    private double ballSize = 10;
 
     private boolean ballExists = false;
+    private BlockGenerator Level1;
 //    private double arrowLeftHeadX;
 //    private double arrowLeftHeadY;
 //    private double arrowRightHeadX;
@@ -46,7 +48,11 @@ private double theta;
 //    private double newDirectionRight;
 
     public GameContent() {
+        int rows = 3;
+        int columns = 8;
 
+        brickCount = rows * columns;
+        Level1 = new BlockGenerator(rows, columns);
 
         timeManager = new Timer(delay, this);
         addKeyListener(this);
@@ -84,6 +90,45 @@ private double theta;
                 ballYSpeed = -ballYSpeed;
             }
 
+            for (int x = 0; x < Level1.layout.length; x++) {
+                for (int y = 0; y < Level1.layout[0].length; y++) {
+                    if (Level1.layout[x][y] > 0) {
+
+                        int brickWidth = Level1.brickWidth;
+                        int brickHeight = Level1.brickHeight;
+
+                        int brickX = toIntExact(Math.round(x * spacingMultiplier * brickWidth)) + 20;
+                        int brickY = toIntExact(Math.round(y * spacingMultiplier * brickHeight));
+
+
+                        Rectangle BlockHitBox = new Rectangle(brickX, brickY, brickWidth, brickHeight);
+                        Rectangle BallHitBox = new Rectangle(toIntExact(Math.round(ballXPos)), toIntExact(Math.round(ballYPos)), toIntExact(Math.round(ballSize)), toIntExact(Math.round(ballSize)));
+
+                        if (BallHitBox.intersects(BlockHitBox)) {
+                            if (Level1.layout[x][y] > 0) {
+                                Level1.BrickHit(Level1.layout[x][y], x, y);
+                                if (Level1.layout[x][y] == 0) {
+                                    brickCount--;
+                                    score = score + 5;
+                                } else {
+                                    score++;
+                                }
+
+                                //flip on x
+                                if (ballXPos - 5 < BlockHitBox.x || ballXPos + 5 > BlockHitBox.x + BlockHitBox.width) {
+
+                                    ballXSpeed = -ballXSpeed;
+
+                                } else {
+                                    ballYSpeed = -ballYSpeed;
+                                }
+
+                            }
+                        }
+
+                    }
+                }
+            }
         }
         repaint();
     }
@@ -124,13 +169,17 @@ private double theta;
 
         }
 
+        // block generators
+        Level1.draw((Graphics2D) g, spacingMultiplier);
+
+
         //Ball meme = new Ball(100, 100, 10, "#FFFF00", 5, 5);
 
 
         // ballColour = meme.getColour();
         if (ballExists) {
             g.setColor(Color.decode(ballColour));
-            g.fillOval(toIntExact(Math.round(ballXPos)), toIntExact(Math.round(ballYPos)), toIntExact(Math.round(ballsize)), toIntExact(Math.round(ballsize)));
+            g.fillOval(toIntExact(Math.round(ballXPos)), toIntExact(Math.round(ballYPos)), toIntExact(Math.round(ballSize)), toIntExact(Math.round(ballSize)));
         } else {
 
         }
