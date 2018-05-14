@@ -24,7 +24,7 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
     private int arrowTopX = 302;
     private int arrowTopY = 375;
     private int brickCount;
-    public double spacingMultiplier = 1.2;
+    public double spacingMultiplier = 1.5;
     private double ballXPos;
     private double ballYPos;
     private double ballXSpeed = 5;
@@ -260,7 +260,7 @@ private double theta;
             if (ballExists) {
             } else {
                 double dy = arrowTopY - arrowBaseY;
-                double dx = arrowTopX - arrowBaseX;
+                double dx = arrowTopX - arrowBaseX - 2;
 
                 theta = (Math.PI - (Math.asin((dy) / (sqrt((dy * dy) + (dx * dx))))));
                 if (dx <= 0) {
