@@ -15,7 +15,10 @@ public class BlockGenerator {
         tempLayout = new int[col][totalrows];
         for (int x = 0; x < layout.length; x++) {
             for (int y = 0; y < row; y++) {
-                layout[x][y] = 2;
+                layout[x][y] = y;
+                if (y == 2) {
+                    layout[x][y] = 2;
+                }
 
             }
         }
@@ -51,12 +54,24 @@ public class BlockGenerator {
 
     public void shiftDown(boolean gameWon) {
         if (!gameWon) {
+
             for (int x = 0; x < layout.length; x++) {
-                for (int y = 0; y < layout[0].length; y++) {
+
+                for (int y = 0; y < layout[0].length - 1; y++) {
                     tempLayout[x][y + 1] = layout[x][y];
 
                 }
 
+            }
+            for (int x = 0; x < layout.length; x++) {
+
+            }
+            for (int x = 0; x < layout.length; x++) {
+
+                for (int y = 0; y < layout[0].length; y++) {
+                    layout[x][y] = tempLayout[x][y];
+
+                }
             }
         }
     }

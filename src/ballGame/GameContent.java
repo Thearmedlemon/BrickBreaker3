@@ -11,11 +11,11 @@ import static java.lang.Math.*;
 
 
 public class GameContent extends JPanel implements ActionListener, KeyListener {
-
+    public int dropCounter = 0;
     private boolean playing = false;
     public Ball[] Balls;
     private int score = 0;
-
+    private boolean gameWon = false;
     private int delay = 5;
     private Timer timeManager;
 
@@ -34,6 +34,9 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
     private int arrowSpeed = 5;
     private double ballSize = 10;
 
+    private int rows = 3;
+    private int columns = 8;
+
     private boolean ballExists = false;
     private BlockGenerator Level1;
 //    private double arrowLeftHeadX;
@@ -48,8 +51,7 @@ private double theta;
 //    private double newDirectionRight;
 
     public GameContent() {
-        int rows = 3;
-        int columns = 8;
+
 
         brickCount = rows * columns;
         Level1 = new BlockGenerator(rows, columns);
@@ -87,6 +89,13 @@ private double theta;
                 ballExists = false;
                 arrowBaseX = toIntExact(Math.round(ballXPos));
                 arrowTopX = arrowBaseX + 3;
+                dropCounter++;
+                if (dropCounter == 3) {
+                    Level1.shiftDown(gameWon);
+                    dropCounter = 0;
+                }
+
+            }
 
             }
 
@@ -133,9 +142,9 @@ private double theta;
                     }
                 }
             }
-        }
         repaint();
-    }
+        }
+
 
     @Override
     public void keyTyped(KeyEvent e) {
