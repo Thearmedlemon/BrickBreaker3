@@ -19,22 +19,29 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
     private int delay = 5;
     private Timer timeManager;
 
+
+    private int yConst = 500;
     private int arrowBaseX = 300;
-    private int arrowBaseY = 425;
+    private int arrowBaseY = 425 + yConst;
     private int arrowTopX = 302;
-    private int arrowTopY = 375;
+    private int arrowTopY = 375 + yConst;
     private int brickCount;
     public double spacingMultiplier = 1.5;
     private double ballXPos;
     private double ballYPos;
+    private double lastBallXPos;
+    private double lastBallYPos;
     private double ballXSpeed = 5;
     private double ballYSpeed = 5;
     private int currentBallCount;
     private String ballColour = "#FFFF00";
     private int arrowSpeed = 5;
     private double ballSize = 10;
+    private int multiplier = 1;
+    private double multiplierBounceCount = 5;
+    private double multiplierBounceDirection = .5;
 
-    private int rows = 3;
+    private int rows = 4;
     private int columns = 8;
 
     private boolean ballExists = false;
@@ -73,7 +80,13 @@ private double theta;
     @Override
     public void actionPerformed(ActionEvent e) {
         timeManager.start();
+        if (multiplierBounceCount == 1 || multiplierBounceCount == 20) {
+            multiplierBounceDirection = -multiplierBounceDirection;
+        }
+        multiplierBounceCount = multiplierBounceCount + multiplierBounceDirection;
         if (ballExists) {
+            lastBallXPos = ballXPos;
+            lastBallYPos = ballYPos;
             ballXPos += ballXSpeed;
             ballYPos += ballYSpeed;
             if (ballXPos <= 0) {
@@ -84,11 +97,12 @@ private double theta;
                 ballXSpeed = -ballXSpeed;
             }
 
-            if (ballYPos >= 480) {
+            if (ballYPos >= 480 + yConst) {
                 //hits the bottom of the screen
                 ballExists = false;
                 arrowBaseX = toIntExact(Math.round(ballXPos));
                 arrowTopX = arrowBaseX + 3;
+                multiplier = 1;
                 dropCounter++;
                 if (dropCounter == 3) {
                     Level1.shiftDown(gameWon);
@@ -122,18 +136,30 @@ private double theta;
                                 Level1.BrickHit(Level1.layout[x][y], x, y);
                                 if (Level1.layout[x][y] == 0) {
                                     brickCount--;
-                                    score = score + 5;
+                                    score = score + 5 * multiplier;
+                                    multiplier++;
                                 } else {
-                                    score++;
+                                    score = score + multiplier;
                                 }
 
                                 //flip on x
-                                if (ballXPos - 5 < BlockHitBox.x || ballXPos + 5 > BlockHitBox.x + BlockHitBox.width) {
+                                if (lastBallXPos <= BlockHitBox.x || lastBallXPos >= BlockHitBox.x + BlockHitBox.width) {
 
                                     ballXSpeed = -ballXSpeed;
+                                    if (lastBallXPos <= BlockHitBox.x) {
+                                        ballXPos = BlockHitBox.x - 10;
+                                    } else {
+                                        ballXPos = BlockHitBox.x + BlockHitBox.width + 10;
+                                    }
 
                                 } else {
                                     ballYSpeed = -ballYSpeed;
+                                    if (lastBallYPos <= BlockHitBox.y) {
+                                        ballYPos = BlockHitBox.y - 10;
+                                    } else {
+                                        ballYPos = BlockHitBox.y + BlockHitBox.height + 10;
+                                    }
+
                                 }
 
                             }
@@ -156,13 +182,21 @@ private double theta;
 
         //settingBackground
         g.setColor(Color.BLACK);
-        g.fillRect(1, 1, 800, 500);
+        g.fillRect(1, 1, 800, 500 + yConst);
 
         //setting Borders
         g.setColor(Color.ORANGE);
-        g.fillRoundRect(595, 1, 5, 500, 3, 3);
-        g.fillRoundRect(595, 350, 200, 5, 3, 3);
+        g.fillRoundRect(595, 1, 5, 500 + yConst, 3, 3);
+        g.fillRoundRect(595, 350 + yConst, 200, 5, 3, 3);
 
+        //score
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Comic Sans", Font.BOLD, 35));
+        g.drawString("Score:" + score, 610, 50);
+        if (multiplier != 1) {
+            g.setFont(new Font("Papyrus", Font.ROMAN_BASELINE, 10 + toIntExact(Math.round(+1 * multiplierBounceCount))));
+            g.drawString("Multiplier: x" + multiplier, 610, 100);
+        }
 
         //ArrowTop
         g.setColor(Color.GREEN);
@@ -234,7 +268,7 @@ private double theta;
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_R) {
             arrowTopX = 302;
-            arrowTopY = 375;
+            arrowTopY = 375 + yConst;
             arrowBaseX = 299;
             ballExists = false;
 
@@ -256,15 +290,15 @@ private double theta;
         }
 
         if (e.getKeyCode() == KeyEvent.VK_UP) {
-            if (arrowTopY <= 375) {
-                arrowTopY = 375;
+            if (arrowTopY <= 500) {
+                arrowTopY = 500;
             } else {
                 moveUp();
             }
         }
         if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            if (arrowTopY >= 415) {
-                arrowTopY = 415;
+            if (arrowTopY >= 915) {
+                arrowTopY = 915;
             } else {
                 moveDown();
             }
