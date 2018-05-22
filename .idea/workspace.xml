@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/ballGame/GameContent.java" line="262" />
+    <bookmark url="file://$PROJECT_DIR$/src/ballGame/GameContent.java" line="250" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="53b977f0-d84a-4288-b21e-9775a665ad33" name="Default" comment="removing more redundant data">
+    <list default="true" id="53b977f0-d84a-4288-b21e-9775a665ad33" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ballGame/Ball.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ballGame/Ball.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ballGame/BlockGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ballGame/BlockGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ballGame/GameContent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ballGame/GameContent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ballGame/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ballGame/Main.java" afterDir="false" />
     </list>
@@ -26,13 +24,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="GameContent.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="GameContent.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/ballGame/GameContent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="280" column="19" selection-start-line="280" selection-start-column="19" selection-end-line="280" selection-end-column="19" />
+            <state relative-caret-position="384">
+              <caret line="78" column="77" selection-start-line="78" selection-start-column="77" selection-end-line="78" selection-end-column="77" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#13976#13977#0" expanded="true" />
+                <element signature="e#14015#14016#0" expanded="true" />
+                <element signature="e#14046#14047#0" expanded="true" />
+                <element signature="e#14085#14086#0" expanded="true" />
+                <element signature="e#14114#14115#0" expanded="true" />
+                <element signature="e#14153#14154#0" expanded="true" />
+                <element signature="e#14184#14185#0" expanded="true" />
+                <element signature="e#14223#14224#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -41,13 +47,13 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ballGame/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="12" lean-forward="true" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
+            <state relative-caret-position="289">
+              <caret line="17" column="62" selection-start-line="17" selection-start-column="62" selection-end-line="17" selection-end-column="62" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BlockGenerator.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="BlockGenerator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ballGame/BlockGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="136">
@@ -130,9 +136,9 @@
       <find>equal</find>
       <find>shiftdown</find>
       <find>paint</find>
-      <find>20</find>
       <find>gameover</find>
       <find>println</find>
+      <find>20</find>
     </findStrings>
     <replaceStrings>
       <replace>double</replace>
@@ -146,9 +152,9 @@
       <list>
         <option value="$PROJECT_DIR$/src/ballGame/Block.java" />
         <option value="$PROJECT_DIR$/src/ballGame/Ball.java" />
+        <option value="$PROJECT_DIR$/src/ballGame/BlockGenerator.java" />
         <option value="$PROJECT_DIR$/src/ballGame/Main.java" />
         <option value="$PROJECT_DIR$/src/ballGame/GameContent.java" />
-        <option value="$PROJECT_DIR$/src/ballGame/BlockGenerator.java" />
       </list>
     </option>
   </component>
@@ -371,7 +377,14 @@
       <option name="project" value="LOCAL" />
       <updated>1526985077844</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="removing more redundant data">
+      <created>1526985511969</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1526985511969</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -380,19 +393,19 @@
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info active="true" anchor="bottom" id="Messages" order="7" visible="true" weight="0.32943678" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.32943678" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="3" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.33156216" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.33156216" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15052083" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32943678" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="2" />
@@ -462,7 +475,15 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="25" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/ballGame/Main.java</url>
+          <line>4</line>
+          <properties />
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="26" />
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
@@ -481,6 +502,14 @@
           <caret line="95" column="46" selection-start-line="95" selection-start-column="46" selection-end-line="95" selection-end-column="46" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#13976#13977#0" expanded="true" />
+            <element signature="e#14015#14016#0" expanded="true" />
+            <element signature="e#14046#14047#0" expanded="true" />
+            <element signature="e#14085#14086#0" expanded="true" />
+            <element signature="e#14114#14115#0" expanded="true" />
+            <element signature="e#14153#14154#0" expanded="true" />
+            <element signature="e#14184#14185#0" expanded="true" />
+            <element signature="e#14223#14224#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -510,6 +539,14 @@
           <caret line="8" selection-start-line="8" selection-end-line="8" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#13976#13977#0" expanded="true" />
+            <element signature="e#14015#14016#0" expanded="true" />
+            <element signature="e#14046#14047#0" expanded="true" />
+            <element signature="e#14085#14086#0" expanded="true" />
+            <element signature="e#14114#14115#0" expanded="true" />
+            <element signature="e#14153#14154#0" expanded="true" />
+            <element signature="e#14184#14185#0" expanded="true" />
+            <element signature="e#14223#14224#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -702,23 +739,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ballGame/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="12" lean-forward="true" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ballGame/GameContent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="280" column="19" selection-start-line="280" selection-start-column="19" selection-end-line="280" selection-end-column="19" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ballGame/Ball.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="260">
@@ -756,6 +776,31 @@
             <element signature="imports" expanded="true" />
             <element signature="e#5078#5079#0" expanded="true" />
             <element signature="e#5111#5112#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ballGame/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="62" selection-start-line="17" selection-start-column="62" selection-end-line="17" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ballGame/GameContent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="78" column="77" selection-start-line="78" selection-start-column="77" selection-end-line="78" selection-end-column="77" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#13976#13977#0" expanded="true" />
+            <element signature="e#14015#14016#0" expanded="true" />
+            <element signature="e#14046#14047#0" expanded="true" />
+            <element signature="e#14085#14086#0" expanded="true" />
+            <element signature="e#14114#14115#0" expanded="true" />
+            <element signature="e#14153#14154#0" expanded="true" />
+            <element signature="e#14184#14185#0" expanded="true" />
+            <element signature="e#14223#14224#0" expanded="true" />
           </folding>
         </state>
       </provider>

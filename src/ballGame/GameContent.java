@@ -12,92 +12,77 @@ import static java.lang.Math.*;
 
 
 public class GameContent extends JPanel implements ActionListener, KeyListener {
-    private int dropCounter = 0;
-    private boolean playing = true;
-    public Ball[] Balls;
-    private int score = 0;
-    private boolean gameWon = false;
-    private int delay = 5;
-    private Timer timeManager;
-    private Timer stall;
+    private int dropCounter = 0; //counts the number of balls that have dropped off the bottom of the screen since the last ball fire
 
-    private int brickWidth = 50;
-    private int brickHeight = 30;
-    private boolean gameOver;
-    private int yConst = 500;
-    private int arrowBaseX = 300;
-    private int arrowBaseY = 425 + yConst;
-    private int arrowTopX = 302;
-    private int arrowTopY = 375 + yConst;
-    private int brickCount;
-    private double spacingMultiplier = 1.5;
-    private double[] ballXPos = new double[25];
-    private double[] ballYPos = new double[25];
-    private double[] lastBallXPos = new double[25];
-    private double[] lastBallYPos = new double[25];
-    private double[] ballXSpeed = new double[25];
-    private double[] ballYSpeed = new double[25];
-    private Ball[] BallsArray = new Ball[25];
-    private int currentBallCount;
-    private String ballColour = "#FFFF00";
-    private int arrowSpeed = 5;
-    private double ballSize = 10;
-    private int multiplier = 1;
-    private double multiplierBounceCount = 5;
-    private double multiplierBounceDirection = .5;
+    private int score = 0; //keeps track of user's score
+    private boolean gameWon = false; //keeps track of whether the user has destroyed all the blocks
+    private boolean gameOver; //keeps track of whether a block reaches the bottom of the screen (i.e. player loses)
 
-    private boolean powerupActive = false;
-    private int powerupX;
-    private int powerupY;
-    private int gravity = 1;
+    private Timer timeManager; //used for animation
+    private int yConst = 500; // a constant value that is added to some y position values as the window increased in height by 500
 
-    private int rows = 8;
-    private int columns = 8;
+    private int arrowBaseX = 300; // arrowbasex represents the xpos of the bottom square of the arrow
+    private int arrowBaseY = 425 + yConst; //arrowbasey represents the ypos of the bottom square of the arrow
+    private int arrowTopX = 302; //arrowtopx represents the xpos of the Top square of the arrow
+    private int arrowTopY = 375 + yConst;//arrowtopx represents the xpos of the Top square of the arrow
 
-    private int tempCount = 0;
+    private int brickCount; //keeps track of how many bricks are left
+    private double spacingMultiplier = 1.5; //acts as a seperation value for brick positions
+    private double[] ballXPos = new double[25]; //array of positions for different balls' x  value
+    private double[] ballYPos = new double[25];//array of positions for different balls' y  value
+    private double[] lastBallXPos = new double[25];//array of positions for different balls' previous x  value
+    private double[] lastBallYPos = new double[25];//array of positions for different balls' previous y  value
+    private double[] ballXSpeed = new double[25]; //array of positions for different balls' x speed i.e. how many pixels in that direction it moves every timer tick
+    private double[] ballYSpeed = new double[25];//array of positions for different balls' x speed i.e. how many pixels in that direction it moves every timer tick
+    private Ball[] BallsArray = new Ball[25]; //array of Ball objects
 
-    private boolean ballExists = false;
-    private BlockGenerator Level1;
+    private int currentBallCount; //tracks how many balls can be fired
+    private String ballColour = "#FFFF00"; //a constant value that has the hex code of the ball's colour
+    private int arrowSpeed = 5; //the rate at which the arrow can move
+    private double ballSize = 10; //the constant size of the ball
+    private int multiplier = 1;// the value by which scores are multiplied
+    private double multiplierBounceCount = 5; //how many size changes per cycle for the multiplier text
+    private double multiplierBounceDirection = .5;// how much the size of multiplier text changes per bouncecount
 
-    private double theta;
+    private boolean powerupActive = false;//is there a powerup on screen
+    private int powerupX;//x position of the powerup
+    private int powerupY;//y position of the powerup
+
+    private int tempCount = 0;//keeps track of how manay balls have fallen off screen
+
+    private BlockGenerator Level1; //instance of blockgenerator created
 
 
     GameContent() {
+        //This is the method that sets the game content up. it defines how many rows ,columns, bricks there are in a level and starts the timer which is used for animation of game elements
 
 
+        int rows = 8;
+        int columns = 8;
         brickCount = rows * columns;
         Level1 = new BlockGenerator(rows, columns);
-        Timer stall = new Timer(5, this);
-        stall.setRepeats(false);
-        stall.setDelay(200);
-        timeManager = new Timer(delay, this);
+
+        int delay = 5;
+        timeManager = new Timer(delay, this); //used for animation
         addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
-        timeManager.start();
+        timeManager.start(); //start the timer
 
-        currentBallCount = 1;
+        currentBallCount = 1; //start with 1 ball
 
 
         for (int i = 0; i < 25; i++) {
 
             BallsArray[i] = new Ball(ballXPos[i], ballYPos[i], ballSize, Color.decode(ballColour), ballXSpeed[i], ballYSpeed[i], false);
         }
+        //fill the ballsArray with the values stored in the Arrays at the top
 
 
-        //ballAssign();
+
     }
 
-//    public void ballAssign(){
-//
-//        for (int i=0; i<25;i++){
-//
-//
-//
-//
-//
-//        }
-//    }
+
 
 
 
@@ -241,6 +226,7 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
                 }
 
             }
+            int gravity = 1;
             powerupY = powerupY + gravity;
 
 
@@ -253,7 +239,9 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
 
     private void ItemSpawn(int x, int y) {
         if (!powerupActive) {
+            int brickWidth = 50;
             powerupX = (toIntExact(Math.round(x * spacingMultiplier * brickWidth)) + brickWidth / 2);
+            int brickHeight = 30;
             powerupY = (toIntExact(Math.round(y * spacingMultiplier * brickHeight)) + brickHeight / 2);
             powerupActive = true;
         }
@@ -352,7 +340,6 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
             arrowTopX = 302;
             arrowTopY = 375 + yConst;
             arrowBaseX = 299;
-            ballExists = false;
 
             for (int k = 0; k < currentBallCount; k++) {
                 BallsArray[k].setActive(false);
@@ -409,7 +396,7 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
                         double dy = arrowTopY - arrowBaseY;
                         double dx = arrowTopX - arrowBaseX - 2;
 
-                        theta = (Math.PI - (Math.asin((dy) / (sqrt((dy * dy) + (dx * dx))))));
+                        double theta = (Math.PI - (Math.asin((dy) / (sqrt((dy * dy) + (dx * dx))))));
                         if (dx <= 0) {
                             ballXSpeed[k] = 5 * cos(theta);
                             ballYSpeed[k] = 5 * sin(theta);
@@ -422,7 +409,6 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
 
 
                         BallsArray[k].setActive(true);
-                        ballExists = true;
 
 
                     }
@@ -435,22 +421,18 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
 
 
     private void moveRight() {
-        playing = true;
         arrowTopX += arrowSpeed;
     }
 
     private void moveLeft() {
-        playing = true;
         arrowTopX -= arrowSpeed;
     }
 
     private void moveUp() {
-        playing = true;
         arrowTopY -= arrowSpeed;
     }
 
     private void moveDown() {
-        playing = true;
         arrowTopY += arrowSpeed;
     }
 
