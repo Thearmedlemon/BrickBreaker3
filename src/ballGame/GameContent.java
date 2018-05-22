@@ -12,8 +12,8 @@ import static java.lang.Math.*;
 
 
 public class GameContent extends JPanel implements ActionListener, KeyListener {
-    public int dropCounter = 0;
-    private boolean playing = false;
+    private int dropCounter = 0;
+    private boolean playing = true;
     public Ball[] Balls;
     private int score = 0;
     private boolean gameWon = false;
@@ -30,7 +30,7 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
     private int arrowTopX = 302;
     private int arrowTopY = 375 + yConst;
     private int brickCount;
-    public double spacingMultiplier = 1.5;
+    private double spacingMultiplier = 1.5;
     private double[] ballXPos = new double[25];
     private double[] ballYPos = new double[25];
     private double[] lastBallXPos = new double[25];
@@ -62,7 +62,7 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
     private double theta;
 
 
-    public GameContent() {
+    GameContent() {
 
 
         brickCount = rows * columns;
@@ -252,7 +252,7 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
     }
 
 
-    public void ItemSpawn(int x, int y) {
+    private void ItemSpawn(int x, int y) {
         if (!powerupActive) {
             powerupX = (toIntExact(Math.round(x * spacingMultiplier * brickWidth)) + brickWidth / 2);
             powerupY = (toIntExact(Math.round(y * spacingMultiplier * brickHeight)) + brickHeight / 2);
@@ -286,7 +286,7 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
             g.setFont(new Font("Comic Sans", Font.PLAIN, 15));
             g.drawString("Number of Balls:" + currentBallCount, 610, 830);
             if (multiplier != 1) {
-                g.setFont(new Font("Papyrus", Font.ROMAN_BASELINE, 10 + toIntExact(Math.round(+1 * multiplierBounceCount))));
+                g.setFont(new Font("Papyrus", Font.PLAIN, 10 + toIntExact(Math.round(+1 * multiplierBounceCount))));
                 g.drawString("Multiplier: x" + multiplier, 610, 100);
 
             }
@@ -332,8 +332,6 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
                 if (BallsArray[k].getActive()) {
                     g.setColor(Color.decode(ballColour));
                     g.fillOval(toIntExact(Math.round(ballXPos[k])), toIntExact(Math.round(ballYPos[k])), toIntExact(Math.round(ballSize)), toIntExact(Math.round(ballSize)));
-                } else {
-
                 }
             }
         }
@@ -413,8 +411,7 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
             for (int k = 0; k < currentBallCount; k++) {
                 for (int x = 0; x < 200; x++) {
 
-                    if (BallsArray[k].getActive()) {
-                    } else {
+                    if (!BallsArray[k].getActive()) {
                         double dy = arrowTopY - arrowBaseY;
                         double dx = arrowTopX - arrowBaseX - 2;
 
@@ -443,24 +440,22 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
     }
 
 
-
-
-    public void moveRight() {
+    private void moveRight() {
         playing = true;
         arrowTopX += arrowSpeed;
     }
 
-    public void moveLeft() {
+    private void moveLeft() {
         playing = true;
         arrowTopX -= arrowSpeed;
     }
 
-    public void moveUp() {
+    private void moveUp() {
         playing = true;
         arrowTopY -= arrowSpeed;
     }
 
-    public void moveDown() {
+    private void moveDown() {
         playing = true;
         arrowTopY += arrowSpeed;
     }
