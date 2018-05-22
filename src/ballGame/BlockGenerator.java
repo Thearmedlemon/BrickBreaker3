@@ -5,6 +5,7 @@ import java.awt.*;
 import static java.lang.Math.toIntExact;
 
 public class BlockGenerator {
+    private boolean gameWonvar;
     public int layout[][];
     public int tempLayout[][];
     public int brickWidth;
@@ -21,8 +22,8 @@ public class BlockGenerator {
         layout = new int[col][totalRows];
         tempLayout = new int[col][totalRows];
         for (int x = 0; x < layout.length; x++) {
-            for (int y = 0; y < row; y++) {
-                layout[x][y] = y + 2;
+            for (int y = 0; y <= row; y++) {
+                layout[x][row - y] = y;
 
 
             }
@@ -76,7 +77,7 @@ public class BlockGenerator {
 
                     }
                     if (layout[x][y] == 3) {
-                        red = 0xFF;
+                        red = 0x00;
                         green = 0xFF;
                         blue = 0xFF;
 
@@ -104,6 +105,12 @@ public class BlockGenerator {
                         red = 0x80;
                         green = 0x00;
                         blue = 0x80;
+
+                    }
+                    if (layout[x][y] == 8) {
+                        red = 0x00;
+                        green = 0xFF;
+                        blue = 0x00;
 
                     }
 
@@ -147,12 +154,21 @@ public class BlockGenerator {
 
                 }
             }
+            for (int x = 0; x < layout.length; x++) {
+                if (layout[x][19] != 0) {
+                    gameWonvar = true;
+                }
+            }
         }
     }
 
     public void BrickHit(int val, int row, int col) {
         layout[row][col] = val - 1;
 
+    }
+
+    public boolean gameWonCheck() {
+        return gameWonvar;
     }
 
 
