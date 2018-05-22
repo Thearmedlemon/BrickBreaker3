@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Random;
 
 import static java.lang.Math.*;
 
@@ -18,7 +19,10 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
     private boolean gameWon = false;
     private int delay = 5;
     private Timer timeManager;
+    private Timer stall;
 
+    private int brickWidth = 50;
+    private int brickHeight = 30;
 
     private int yConst = 500;
     private int arrowBaseX = 300;
@@ -27,12 +31,13 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
     private int arrowTopY = 375 + yConst;
     private int brickCount;
     public double spacingMultiplier = 1.5;
-    private double ballXPos;
-    private double ballYPos;
-    private double lastBallXPos;
-    private double lastBallYPos;
-    private double ballXSpeed = 5;
-    private double ballYSpeed = 5;
+    private double[] ballXPos = new double[25];
+    private double[] ballYPos = new double[25];
+    private double[] lastBallXPos = new double[25];
+    private double[] lastBallYPos = new double[25];
+    private double[] ballXSpeed = new double[25];
+    private double[] ballYSpeed = new double[25];
+    private Ball[] BallsArray = new Ball[25];
     private int currentBallCount;
     private String ballColour = "#FFFF00";
     private int arrowSpeed = 5;
@@ -41,28 +46,30 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
     private double multiplierBounceCount = 5;
     private double multiplierBounceDirection = .5;
 
-    private int rows = 4;
+    private boolean powerupActive = false;
+    private int powerupX;
+    private int powerupY;
+    private int gravity = 1;
+
+    private int rows = 6;
     private int columns = 8;
+
+    private int tempCount = 0;
 
     private boolean ballExists = false;
     private BlockGenerator Level1;
-//    private double arrowLeftHeadX;
-//    private double arrowLeftHeadY;
-//    private double arrowRightHeadX;
-//    private double arrowRightHeadY;
-//    private double dy;
-//    private double dx;
-private double theta;
-//    private double arrowHeadAngle;
-//    private double newDirectionLeft;
-//    private double newDirectionRight;
+
+    private double theta;
+
 
     public GameContent() {
 
 
         brickCount = rows * columns;
         Level1 = new BlockGenerator(rows, columns);
-
+        Timer stall = new Timer(5, this);
+        stall.setRepeats(false);
+        stall.setDelay(200);
         timeManager = new Timer(delay, this);
         addKeyListener(this);
         setFocusable(true);
@@ -71,8 +78,26 @@ private double theta;
 
         currentBallCount = 1;
 
-        Balls = new Ball[currentBallCount];
+
+        for (int i = 0; i < 25; i++) {
+
+            BallsArray[i] = new Ball(ballXPos[i], ballYPos[i], ballSize, Color.decode(ballColour), ballXSpeed[i], ballYSpeed[i], false);
+        }
+
+
+        //ballAssign();
     }
+
+//    public void ballAssign(){
+//
+//        for (int i=0; i<25;i++){
+//
+//
+//
+//
+//
+//        }
+//    }
 
 
 
@@ -84,37 +109,50 @@ private double theta;
             multiplierBounceDirection = -multiplierBounceDirection;
         }
         multiplierBounceCount = multiplierBounceCount + multiplierBounceDirection;
-        if (ballExists) {
-            lastBallXPos = ballXPos;
-            lastBallYPos = ballYPos;
-            ballXPos += ballXSpeed;
-            ballYPos += ballYSpeed;
-            if (ballXPos <= 0) {
-                ballXSpeed = -ballXSpeed;
-            }
 
-            if (ballXPos >= 590) {
-                ballXSpeed = -ballXSpeed;
-            }
+        for (int k = 0; k < 25; k++) {
 
-            if (ballYPos >= 480 + yConst) {
-                //hits the bottom of the screen
-                ballExists = false;
-                arrowBaseX = toIntExact(Math.round(ballXPos));
-                arrowTopX = arrowBaseX + 3;
-                multiplier = 1;
-                dropCounter++;
-                if (dropCounter == 3) {
-                    Level1.shiftDown(gameWon);
-                    dropCounter = 0;
+
+            if (BallsArray[k].getActive()) {
+                lastBallXPos[k] = ballXPos[k];
+                lastBallYPos[k] = ballYPos[k];
+                ballXPos[k] += ballXSpeed[k];
+                ballYPos[k] += ballYSpeed[k];
+                if (ballXPos[k] <= 0) {
+                    ballXSpeed[k] = -ballXSpeed[k];
                 }
 
-            }
+                if (ballXPos[k] >= 590) {
+                    ballXSpeed[k] = -ballXSpeed[k];
+                }
+
+                if (ballYPos[k] >= 480 + yConst) {
+                    //hits the bottom of the screen
+                    tempCount++;
+                    BallsArray[k].setActive(false);
+                    System.out.println("temp = " + tempCount);
+                    System.out.println("currentBallCount= " + currentBallCount);
+                    if (tempCount == currentBallCount) {
+
+
+                        arrowBaseX = toIntExact(Math.round(ballXPos[k]));
+                        arrowTopX = arrowBaseX + 3;
+                        multiplier = 1;
+                        dropCounter++;
+                        tempCount = 0;
+                    }
+                    if (dropCounter == 3) {
+                        Level1.shiftDown(gameWon);
+                        dropCounter = 0;
+                    }
+
+                }
+
 
             }
 
-            if (ballYPos <= 0) {
-                ballYSpeed = -ballYSpeed;
+            if (ballYPos[k] <= 0) {
+                ballYSpeed[k] = -ballYSpeed[k];
             }
 
             for (int x = 0; x < Level1.layout.length; x++) {
@@ -129,13 +167,23 @@ private double theta;
 
 
                         Rectangle BlockHitBox = new Rectangle(brickX, brickY, brickWidth, brickHeight);
-                        Rectangle BallHitBox = new Rectangle(toIntExact(Math.round(ballXPos)), toIntExact(Math.round(ballYPos)), toIntExact(Math.round(ballSize)), toIntExact(Math.round(ballSize)));
+
+                        Rectangle BallHitBox = new Rectangle(toIntExact(Math.round(ballXPos[k])), toIntExact(Math.round(ballYPos[k])), toIntExact(Math.round(ballSize)), toIntExact(Math.round(ballSize)));
 
                         if (BallHitBox.intersects(BlockHitBox)) {
                             if (Level1.layout[x][y] > 0) {
                                 Level1.BrickHit(Level1.layout[x][y], x, y);
                                 if (Level1.layout[x][y] == 0) {
                                     brickCount--;
+                                    Random rand = new Random();
+                                    int drop = rand.nextInt(10);
+                                    if (drop == 0 && !powerupActive) {
+                                        ItemSpawn(x, y);
+                                        powerupActive = true;
+                                    }
+                                    if (brickCount == 0) {
+                                        gameWon = true;
+                                    }
                                     score = score + 5 * multiplier;
                                     multiplier++;
                                 } else {
@@ -143,34 +191,55 @@ private double theta;
                                 }
 
                                 //flip on x
-                                if (lastBallXPos <= BlockHitBox.x || lastBallXPos >= BlockHitBox.x + BlockHitBox.width) {
+                                if (lastBallXPos[k] <= BlockHitBox.x || lastBallXPos[k] >= BlockHitBox.x + BlockHitBox.width) {
 
-                                    ballXSpeed = -ballXSpeed;
-                                    if (lastBallXPos <= BlockHitBox.x) {
-                                        ballXPos = BlockHitBox.x - 10;
+                                    ballXSpeed[k] = -ballXSpeed[k];
+                                    if (lastBallXPos[k] <= BlockHitBox.x) {
+                                        ballXPos[k] = BlockHitBox.x - 10;
                                     } else {
-                                        ballXPos = BlockHitBox.x + BlockHitBox.width + 10;
+                                        ballXPos[k] = BlockHitBox.x + BlockHitBox.width + 10;
                                     }
 
                                 } else {
-                                    ballYSpeed = -ballYSpeed;
-                                    if (lastBallYPos <= BlockHitBox.y) {
-                                        ballYPos = BlockHitBox.y - 10;
+                                    ballYSpeed[k] = -ballYSpeed[k];
+                                    if (lastBallYPos[k] <= BlockHitBox.y) {
+                                        ballYPos[k] = BlockHitBox.y - 10;
                                     } else {
-                                        ballYPos = BlockHitBox.y + BlockHitBox.height + 10;
+                                        ballYPos[k] = BlockHitBox.y + BlockHitBox.height + 10;
                                     }
 
                                 }
 
                             }
                         }
+                        Rectangle PowerupHitBox = new Rectangle(powerupX, powerupY, toIntExact(Math.round(ballSize)) * 2, toIntExact(Math.round(ballSize)) * 2);
+                        if (BallHitBox.intersects(PowerupHitBox) && powerupActive) {
+                            powerupActive = false;
+                            tempCount++;
+                            System.out.println("Meme");
+                            if (currentBallCount < 25) {
+                                currentBallCount++;
+                            } else {
+                                score = score + 500 * multiplier;
+                            }
+                        }
 
                     }
                 }
             }
-        repaint();
-        }
 
+        }
+        powerupY = powerupY + gravity;
+        repaint();
+
+    }
+
+
+    public void ItemSpawn(int x, int y) {
+        powerupX = (toIntExact(Math.round(x * spacingMultiplier * brickWidth)) + brickWidth / 2);
+        powerupY = (toIntExact(Math.round(y * spacingMultiplier * brickHeight)) + brickHeight / 2);
+        powerupActive = true;
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -191,11 +260,14 @@ private double theta;
 
         //score
         g.setColor(Color.WHITE);
-        g.setFont(new Font("Comic Sans", Font.BOLD, 35));
+        g.setFont(new Font("Comic Sans", Font.BOLD, 30));
         g.drawString("Score:" + score, 610, 50);
+        g.setFont(new Font("Comic Sans", Font.PLAIN, 15));
+        g.drawString("Number of Balls:" + currentBallCount, 610, 830);
         if (multiplier != 1) {
             g.setFont(new Font("Papyrus", Font.ROMAN_BASELINE, 10 + toIntExact(Math.round(+1 * multiplierBounceCount))));
             g.drawString("Multiplier: x" + multiplier, 610, 100);
+
         }
 
         //ArrowTop
@@ -211,56 +283,35 @@ private double theta;
         g.drawLine(arrowTopX + 3, arrowTopY + 3, arrowBaseX + 5, arrowBaseY + 5);
 
         //ball checks
-        for (currentBallCount = 0; currentBallCount < 25; currentBallCount++) {
-
-
-        }
+//        for (currentBallCount = 0; currentBallCount < 25; currentBallCount++) {
+//
+//
+//        }
 
         // block generators
         Level1.draw((Graphics2D) g, spacingMultiplier);
 
+        //powerup check
+        if (powerupActive) {
+            g.setColor(Color.CYAN);
+            g.fillOval(toIntExact(Math.round(powerupX)), toIntExact(Math.round(powerupY)), toIntExact(Math.round(ballSize * 2)), toIntExact(Math.round(ballSize * 2)));
+            g.setColor(Color.BLACK);
+            g.drawString("+", powerupX, powerupY);
 
-        //Ball meme = new Ball(100, 100, 10, "#FFFF00", 5, 5);
+        }
+
 
 
         // ballColour = meme.getColour();
-        if (ballExists) {
-            g.setColor(Color.decode(ballColour));
-            g.fillOval(toIntExact(Math.round(ballXPos)), toIntExact(Math.round(ballYPos)), toIntExact(Math.round(ballSize)), toIntExact(Math.round(ballSize)));
-        } else {
+        for (int k = 0; k < 25; k++) {
+            if (BallsArray[k].getActive()) {
+                g.setColor(Color.decode(ballColour));
+                g.fillOval(toIntExact(Math.round(ballXPos[k])), toIntExact(Math.round(ballYPos[k])), toIntExact(Math.round(ballSize)), toIntExact(Math.round(ballSize)));
+            } else {
 
+            }
         }
     }
-
-
-//        //arrowhead calculations
-//        dy=arrowTopY+3-arrowBaseY+5;
-//        dx=arrowTopX+3-arrowBaseX+5;
-//        System.out.println("theta" + theta + " dy= " + dy + " dx= " + dx);
-//        arrowHeadAngle =  Math.asin(1/-42);
-//        System.out.println("aHA = " + arrowHeadAngle);
-//
-//        theta= 6.0;
-//
-//        //arrowHeadLeft
-//        newDirectionLeft = (theta+arrowHeadAngle);
-//        arrowLeftHeadX=(arrowTopX + dx* Math.cos(theta) - dy * Math.sin(theta));
-//        arrowLeftHeadY=(arrowTopY + dy* Math.cos(theta) + dx * Math.sin(theta));
-//
-//        arrowLeftHeadX = arrowTopX - (arrowTopX - arrowLeftHeadX) * (40/100);
-//        arrowLeftHeadY = arrowTopY - (arrowTopY - arrowLeftHeadY) * (40/100);
-//        g.drawLine((toIntExact(Math.round(arrowLeftHeadX))),(toIntExact(Math.round(arrowLeftHeadY))),arrowTopX+3,arrowTopY+3);
-//
-//        //arrowHeadRight
-//        newDirectionRight = (theta-arrowHeadAngle);
-//        arrowRightHeadX=arrowTopX + dx * Math.cos(-1*theta) - dy * Math.sin(-1*theta);
-//        arrowRightHeadY=arrowTopY + dy * Math.cos(-1*theta) + dx * Math.sin(-1*theta);
-//
-//        arrowRightHeadX = arrowTopX - (arrowTopX - arrowRightHeadX) * .5;
-//        arrowRightHeadY = arrowTopY - (arrowTopY - arrowRightHeadY) * .5;
-//        g.drawLine(toIntExact(Math.round(arrowRightHeadX)),(toIntExact(Math.round(arrowRightHeadY))),arrowTopX+3,arrowTopY+3);
-
-
 
 
 
@@ -271,6 +322,18 @@ private double theta;
             arrowTopY = 375 + yConst;
             arrowBaseX = 299;
             ballExists = false;
+
+            for (int k = 0; k < currentBallCount; k++) {
+                BallsArray[k].setActive(false);
+            }
+
+
+            powerupActive = true;
+            ItemSpawn(1, 1);
+        }
+        if (e.getKeyCode() == KeyEvent.VK_EQUALS) {
+            Level1.shiftDown(gameWon);
+
 
         }
 
@@ -305,33 +368,43 @@ private double theta;
         }
 
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            if (ballExists) {
-            } else {
-                double dy = arrowTopY - arrowBaseY;
-                double dx = arrowTopX - arrowBaseX - 2;
 
-                theta = (Math.PI - (Math.asin((dy) / (sqrt((dy * dy) + (dx * dx))))));
-                if (dx <= 0) {
-                    ballXSpeed = 5 * cos(theta);
-                    ballYSpeed = 5 * sin(theta);
-                } else {
-                    ballXSpeed = -5 * cos(theta);
-                    ballYSpeed = 5 * sin(theta);
+
+            System.out.println(currentBallCount);
+            for (int k = 0; k < currentBallCount; k++) {
+                for (int x = 0; x < 200; x++) {
+
+                    if (BallsArray[k].getActive()) {
+                    } else {
+                        double dy = arrowTopY - arrowBaseY;
+                        double dx = arrowTopX - arrowBaseX - 2;
+
+                        theta = (Math.PI - (Math.asin((dy) / (sqrt((dy * dy) + (dx * dx))))));
+                        if (dx <= 0) {
+                            ballXSpeed[k] = 5 * cos(theta);
+                            ballYSpeed[k] = 5 * sin(theta);
+                        } else {
+                            ballXSpeed[k] = -5 * cos(theta);
+                            ballYSpeed[k] = 5 * sin(theta);
+                        }
+                        ballXPos[k] = arrowBaseX + k * 2 * toIntExact(Math.round(ballXSpeed[k]));
+                        ballYPos[k] = arrowBaseY + k * 2 * toIntExact(Math.round(ballYSpeed[k]));
+
+
+                        BallsArray[k].setActive(true);
+                        ballExists = true;
+
+
+                    }
+
                 }
-                ballXPos = arrowBaseX;
-                ballYPos = arrowBaseY;
 
-
-                createBall();
             }
         }
-
     }
 
-    public void createBall() {
-        ballExists = true;
 
-    }
+
 
     public void moveRight() {
         playing = true;

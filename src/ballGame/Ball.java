@@ -1,5 +1,7 @@
 package ballGame;
 
+import java.awt.*;
+
 /**
  * Models a simple solid sphere.
  * This class represents a Ball object. When combined with the GameArena class,
@@ -8,13 +10,13 @@ package ballGame;
 public class Ball {
     // The following instance variables define the information needed to represent a Ball
     // Feel free to more instance variables if you think it will support your work...
-
+    private boolean active;
     private double xPosition;           // The X coordinate of this Ball
     private double yPosition;           // The Y coordinate of this Ball
     private double size;                // The diameter of this Ball
     private double xSpeed;              // Speed in x direction of this Ball
     private double ySpeed;              // Speed in y direction of this Ball
-    private String colour;              // The colour of this Ball
+    private Color colour;              // The colour of this Ball
 
 
     /**
@@ -25,13 +27,14 @@ public class Ball {
      * @param diameter The size (diameter) of the Ball in pixels.
      * @param col      The colour of the Ball. @see setColour for a description of permissable colours.
      */
-    public Ball(double x, double y, double diameter, String col, double Horiz, double Vert) {
+    public Ball(double x, double y, double diameter, Color col, double Horiz, double Vert, boolean present) {
         xPosition = x;
         yPosition = y;
         size = diameter;
         colour = col;
         xSpeed = Horiz;
         ySpeed = Vert;
+        active = present;
     }
 
     /**
@@ -93,7 +96,7 @@ public class Ball {
      *
      * @return a textual description of the colour of this Ball.
      */
-    public String getColour() {
+    public Color getColour() {
         return colour;
     }
 
@@ -121,8 +124,27 @@ public class Ball {
      *          WHITESMOKE YELLOW YELLOWGREEN.
      */
 
-    public void setColour(String c) {
+    public void setColour(Color c) {
         colour = c;
+    }
+
+
+    public void setxSpeed(double x) {
+        this.xSpeed = x;
+    }
+
+
+    public void setySpeed(double x) {
+        this.ySpeed = x;
+    }
+
+    public boolean getActive() {
+        return active;
+
+    }
+
+    public void setActive(boolean x) {
+        this.active = x;
     }
 }
 

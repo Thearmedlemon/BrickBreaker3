@@ -9,7 +9,7 @@ public class BlockGenerator {
     public int tempLayout[][];
     public int brickWidth;
     public int brickHeight;
-    public int totalRows = 10;
+    public int totalRows = 20;
     public int currentTop;
     public int currentBottom;
     public Color colourVal = new Color(0xFF, 0xFF, 0xFF);
@@ -22,7 +22,7 @@ public class BlockGenerator {
         tempLayout = new int[col][totalRows];
         for (int x = 0; x < layout.length; x++) {
             for (int y = 0; y < row; y++) {
-                layout[x][y] = y;
+                layout[x][y] = y + 2;
 
 
             }
@@ -49,7 +49,7 @@ public class BlockGenerator {
             hex = "0" + hex;
         }
         hex = "#" + hex;
-        System.out.println(hex);
+
 
         return (hex);
 
@@ -67,7 +67,6 @@ public class BlockGenerator {
                         green = 0x00;
                         blue = 0x00;
 
-                        // g.setColor(Color.decode("#FF0000"));
 
                     }
                     if (layout[x][y] == 2) {
@@ -86,6 +85,25 @@ public class BlockGenerator {
                         red = 0x80;
                         green = 0x00;
                         blue = 0x00;
+
+                    }
+                    if (layout[x][y] == 5) {
+                        red = 0xFF;
+                        green = 0xA5;
+                        blue = 0x00;
+
+                    }
+
+                    if (layout[x][y] == 6) {
+                        red = 0xFF;
+                        green = 0x69;
+                        blue = 0xb4;
+
+                    }
+                    if (layout[x][y] == 7) {
+                        red = 0x80;
+                        green = 0x00;
+                        blue = 0x80;
 
                     }
 

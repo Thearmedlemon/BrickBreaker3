@@ -9,6 +9,7 @@ public class Main {
         GameContent level = new GameContent();
         Window.setTitle("Ball Game");
         Window.setResizable(false);
+        Window.setLocationRelativeTo(null);
         Window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Window.setVisible(true);
 
