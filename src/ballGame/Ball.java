@@ -18,7 +18,7 @@ public class Ball {
     private double ySpeed;              // Speed in y direction of this Ball
     private Color colour;              // The colour of this Ball
 
-
+//
     /**
      * Constructor. Create a new instance of a Ball.
      *
@@ -27,7 +27,7 @@ public class Ball {
      * @param diameter The size (diameter) of the Ball in pixels.
      * @param col      The colour of the Ball. @see setColour for a description of permissable colours.
      */
-    public Ball(double x, double y, double diameter, Color col, double Horiz, double Vert, boolean present) {
+    Ball(double x, double y, double diameter, Color col, double Horiz, double Vert, boolean present) {
         xPosition = x;
         yPosition = y;
         size = diameter;
@@ -138,12 +138,12 @@ public class Ball {
         this.ySpeed = x;
     }
 
-    public boolean getActive() {
+    boolean getActive() {
         return active;
 
     }
 
-    public void setActive(boolean x) {
+    void setActive(boolean x) {
         this.active = x;
     }
 }

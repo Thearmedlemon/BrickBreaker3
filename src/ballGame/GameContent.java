@@ -131,8 +131,7 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
                         //hits the bottom of the screen
                         tempCount++;
                         BallsArray[k].setActive(false);
-                        System.out.println("temp = " + tempCount);
-                        System.out.println("currentBallCount= " + currentBallCount);
+
                         if (tempCount == currentBallCount) {
 
 
@@ -147,7 +146,7 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
 
                             gameOver = Level1.gameWonCheck();
 
-                            System.out.println(gameOver);
+
                             dropCounter = 0;
                         }
 
@@ -229,7 +228,7 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
                             if (BallHitBox.intersects(PowerUpHitBox) && powerupActive) {
                                 powerupActive = false;
                                 tempCount++;
-                                System.out.println("Meme");
+
                                 if (currentBallCount < 25) {
                                     currentBallCount++;
                                 } else {
@@ -266,7 +265,7 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
     }
 
     public void paint(Graphics g) {
-        System.out.println("game won = " + gameWon + "game over = " + gameOver);
+
         if (!gameWon || !gameOver) {
             Graphics2D g2d = (Graphics2D) g;
 
@@ -307,7 +306,7 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
 //        for (currentBallCount = 0; currentBallCount < 25; currentBallCount++) {
 //
 //
-//        }
+//        }//
 
             // block generators
             Level1.draw((Graphics2D) g, spacingMultiplier);
@@ -367,10 +366,6 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
 
             gameOver = Level1.gameWonCheck();
 
-            System.out.println(gameOver);
-
-
-
 
         }
 
@@ -407,7 +402,6 @@ public class GameContent extends JPanel implements ActionListener, KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 
 
-            System.out.println(currentBallCount);
             for (int k = 0; k < currentBallCount; k++) {
                 for (int x = 0; x < 200; x++) {
 

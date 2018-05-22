@@ -4,21 +4,19 @@ import java.awt.*;
 
 import static java.lang.Math.toIntExact;
 
-public class BlockGenerator {
+class BlockGenerator {
     private boolean gameWonvar;
-    public int layout[][];
-    public int tempLayout[][];
-    public int brickWidth;
-    public int brickHeight;
-    public int totalRows = 20;
-    public int currentTop;
-    public int currentBottom;
-    public Color colourVal = new Color(0xFF, 0xFF, 0xFF);
+    int layout[][];
+    int brickWidth;
+    int brickHeight;
+    private int tempLayout[][];
+    private Color colourVal = new Color(0xFF, 0xFF, 0xFF);
     private int red;
     private int green;
     private int blue;
-    private Color complimentaryColorVal;
-    public BlockGenerator(int row, int col) {
+
+    BlockGenerator(int row, int col) {
+        int totalRows = 20;
         layout = new int[col][totalRows];
         tempLayout = new int[col][totalRows];
         for (int x = 0; x < layout.length; x++) {
@@ -28,14 +26,12 @@ public class BlockGenerator {
 
             }
         }
-        currentTop = 3;
-        currentBottom = 4;
         brickWidth = 50;
         brickHeight = 30;
 
     }
 
-    public String complimentaryColourFinder(int r, int g, int b) {
+    private String complimentaryColourFinder(int r, int g, int b) {
         float[] hsb = new float[3];
         int complimentary;
         String hex;
@@ -57,9 +53,7 @@ public class BlockGenerator {
     }
 
 
-
-
-    public void draw(Graphics2D g, double spacingMultiplier) {
+    void draw(Graphics2D g, double spacingMultiplier) {
         for (int x = 0; x < layout.length; x++) {
             for (int y = layout[0].length - 1; y > 0; y--) {
                 if (layout[x][y] > 0) {
@@ -115,7 +109,7 @@ public class BlockGenerator {
                     }
 
                     colourVal = new Color(red, green, blue);
-                    complimentaryColorVal = Color.decode(complimentaryColourFinder(colourVal.getRed(), colourVal.getGreen(), colourVal.getBlue()));
+                    Color complimentaryColorVal = Color.decode(complimentaryColourFinder(colourVal.getRed(), colourVal.getGreen(), colourVal.getBlue()));
 
 
                     g.setColor(colourVal);
@@ -133,41 +127,33 @@ public class BlockGenerator {
         }
     }
 
-    public void shiftDown(boolean gameWon) {
+    void shiftDown(boolean gameWon) {
         if (!gameWon) {
 
             for (int x = 0; x < layout.length; x++) {
 
-                for (int y = 0; y < layout[0].length - 1; y++) {
-                    tempLayout[x][y + 1] = layout[x][y];
-
-                }
+                System.arraycopy(layout[x], 0, tempLayout[x], 1, layout[0].length - 1);
 
             }
+
             for (int x = 0; x < layout.length; x++) {
 
+                System.arraycopy(tempLayout[x], 0, layout[x], 0, layout[0].length);
             }
-            for (int x = 0; x < layout.length; x++) {
-
-                for (int y = 0; y < layout[0].length; y++) {
-                    layout[x][y] = tempLayout[x][y];
-
-                }
-            }
-            for (int x = 0; x < layout.length; x++) {
-                if (layout[x][19] != 0) {
+            for (int[] aLayout : layout) {
+                if (aLayout[19] != 0) {
                     gameWonvar = true;
                 }
             }
         }
     }
 
-    public void BrickHit(int val, int row, int col) {
+    void BrickHit(int val, int row, int col) {
         layout[row][col] = val - 1;
 
     }
 
-    public boolean gameWonCheck() {
+    boolean gameWonCheck() {
         return gameWonvar;
     }
 
